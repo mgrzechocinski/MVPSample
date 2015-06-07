@@ -5,13 +5,13 @@ import de.greenrobot.event.EventBus;
 import java.util.HashMap;
 import java.util.Map;
 
-public class PresentersFactory {
+public class PresentersRepository {
 
     private final EventBus eventBus;
 
     private Map<String, Presenter> presenterMap = new HashMap<>();
 
-    public PresentersFactory(EventBus eventBus) {
+    public PresentersRepository(EventBus eventBus) {
         this.eventBus = eventBus;
     }
 

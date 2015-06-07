@@ -5,5 +5,7 @@
 
     <string name="wrong_username">Wrong username format</string>
     <string name="non_matching_passwords">Passwords doesn\'t match</string>
+    <string name="next">Next</string>
+    <string name="register">Register</string>
 
 </resources>

@@ -6,7 +6,7 @@ import net.grzechocinski.android.mvpsample.register.view.RegisterActivity;
 import net.grzechocinski.android.mvpsample.register.view.RegisterStep3View;
 import java.util.Random;
 
-public class Registration4StepState extends RegisterAsyncState {
+public class RegistrationStep4State extends RegisterAsyncState {
 
     @Override
     public void onUIAttached(RegisterActivity activity) {

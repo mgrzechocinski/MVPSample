@@ -1,6 +1,6 @@
 package net.grzechocinski.android.mvpsample.internal.dagger;
 
-import net.grzechocinski.android.mvpsample.internal.mvp.presenter.PresentersFactory;
+import net.grzechocinski.android.mvpsample.internal.mvp.presenter.PresentersRepository;
 import dagger.Module;
 import dagger.Provides;
 import de.greenrobot.event.EventBus;
@@ -17,7 +17,7 @@ public class ApplicationModule {
 
     @Provides
     @Singleton
-    public PresentersFactory presentersFactory(EventBus eventBus){
-        return new PresentersFactory(eventBus);
+    public PresentersRepository presentersFactory(EventBus eventBus){
+        return new PresentersRepository(eventBus);
     }
 }

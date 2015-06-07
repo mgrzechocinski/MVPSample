@@ -6,13 +6,13 @@ import net.grzechocinski.android.mvpsample.register.view.RegisterActivity;
 import net.grzechocinski.android.mvpsample.register.view.RegisterStep3View;
 import net.grzechocinski.android.mvpsample.internal.mvp.view.SuperView;
 
-public class Registration3StepState extends RegisterState {
+public class RegistrationStep3State extends RegisterState {
 
     @Override
     public void onUIAttached(RegisterActivity activity) {
         FragmentRegisterStep3Binding binding = activity.showStep3();
         binding.setRegistrationData(stateContext);
-        binding.sampleBtnRegister.setOnClickListener(v -> presenter.setState(new Registration4StepState()));
+        binding.sampleBtnRegister.setOnClickListener(v -> presenter.setState(new RegistrationStep4State()));
     }
 
     @Override
@@ -22,7 +22,7 @@ public class Registration3StepState extends RegisterState {
 
     @Override
     public boolean onBackPressed() {
-        presenter.setState(new Registration1StepState(stateContext));
+        presenter.setState(new RegistrationStep1State(stateContext));
         return true;
     }
 }

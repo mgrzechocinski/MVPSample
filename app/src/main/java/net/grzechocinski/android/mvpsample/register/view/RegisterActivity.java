@@ -1,6 +1,6 @@
 package net.grzechocinski.android.mvpsample.register.view;
 
-import net.grzechocinski.android.mvpsample.internal.mvp.presenter.PresentersFactory;
+import net.grzechocinski.android.mvpsample.internal.mvp.presenter.PresentersRepository;
 import net.grzechocinski.android.mvpsample.databinding.FragmentRegisterStep1Binding;
 import net.grzechocinski.android.mvpsample.databinding.FragmentRegisterStep2Binding;
 import net.grzechocinski.android.mvpsample.databinding.FragmentRegisterStep3Binding;
@@ -9,15 +9,15 @@ import net.grzechocinski.android.mvpsample.internal.dagger.ApplicationComponent;
 import net.grzechocinski.android.mvpsample.register.presenter.RegisterPresenter;
 import net.grzechocinski.android.mvpsample.internal.mvp.view.SuperActivity;
 import net.grzechocinski.android.mvpsample.register.model.RegistrationData;
-import net.grzechocinski.android.mvpsample.register.presenter.state.Registration1StepState;
+import net.grzechocinski.android.mvpsample.register.presenter.state.RegistrationStep1State;
 
 public class RegisterActivity extends SuperActivity<RegisterPresenter> {
 
     @Override
-    protected void initializePresenter(PresentersFactory presentersFactory) {
-        presentersFactory.getRegisterPresenter(RegisterPresenter::new, newPresenter -> {
+    protected void initializePresenter(PresentersRepository presentersRepository) {
+        presentersRepository.getRegisterPresenter(RegisterPresenter::new, newPresenter -> {
             presenter = newPresenter;
-            presenter.start(new Registration1StepState(new RegistrationData()));
+            presenter.start(new RegistrationStep1State(new RegistrationData()));
         }, existingPresenter -> {
             presenter = existingPresenter;
             presenter.restoreUI(this);

@@ -14,7 +14,7 @@ import net.grzechocinski.android.mvpsample.internal.dagger.ActivityModule;
 import net.grzechocinski.android.mvpsample.internal.dagger.ApplicationComponent;
 import net.grzechocinski.android.mvpsample.internal.dagger.DaggerActivityComponent;
 import net.grzechocinski.android.mvpsample.internal.mvp.presenter.Presenter;
-import net.grzechocinski.android.mvpsample.internal.mvp.presenter.PresentersFactory;
+import net.grzechocinski.android.mvpsample.internal.mvp.presenter.PresentersRepository;
 
 public abstract class SuperActivity<PRESENTER extends Presenter> extends AppCompatActivity {
 
@@ -53,7 +53,7 @@ public abstract class SuperActivity<PRESENTER extends Presenter> extends AppComp
         animator.setInAnimation(animation);
     }
 
-    protected abstract void initializePresenter(PresentersFactory presentersFactory);
+    protected abstract void initializePresenter(PresentersRepository presentersRepository);
 
     protected ApplicationComponent getApplicationComponent() {
         return ((MVPSampleApp) getApplication()).component();
