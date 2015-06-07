@@ -15,6 +15,7 @@ import net.grzechocinski.android.mvpsample.internal.dagger.ApplicationComponent;
 import net.grzechocinski.android.mvpsample.internal.dagger.DaggerActivityComponent;
 import net.grzechocinski.android.mvpsample.internal.mvp.presenter.Presenter;
 import net.grzechocinski.android.mvpsample.internal.mvp.presenter.PresentersRepository;
+import timber.log.Timber;
 
 public abstract class SuperActivity<PRESENTER extends Presenter> extends AppCompatActivity {
 
@@ -76,9 +77,25 @@ public abstract class SuperActivity<PRESENTER extends Presenter> extends AppComp
     }
 
     @Override
-    protected void onDestroy() {
-        super.onDestroy();
+    protected void onStart() {
+        super.onStart();
+        if(!eventBus.isRegistered(this)){
+            eventBus.register(this);
+        }
+        presenter.onUIAttached(this);
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
         eventBus.unregister(this);
+        presenter.onUIDetached(getApplicationContext());
+    }
+
+    @Override
+    protected void onDestroy() {
+        Timber.i("Destroying: " + this);
+        super.onDestroy();
     }
 
     protected void changeFragment(SuperView superView) {

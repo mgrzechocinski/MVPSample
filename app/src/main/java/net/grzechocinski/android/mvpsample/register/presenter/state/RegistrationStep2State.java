@@ -4,6 +4,7 @@ import static rx.Observable.combineLatest;
 
 import android.widget.Toast;
 import net.grzechocinski.android.mvpsample.databinding.FragmentRegisterStep2Binding;
+import net.grzechocinski.android.mvpsample.internal.mvp.presenter.Presenter;
 import net.grzechocinski.android.mvpsample.internal.util.RxUtils;
 import net.grzechocinski.android.mvpsample.register.presenter.state.generic.RegisterState;
 import net.grzechocinski.android.mvpsample.register.view.RegisterActivity;
@@ -13,7 +14,7 @@ import rx.Observable;
 import rx.android.widget.OnTextChangeEvent;
 import rx.android.widget.WidgetObservable;
 
-public class RegistrationStep2State extends RegisterState {
+public class RegistrationStep2State extends RegisterState{
 
     @Override
     public void onUIAttached(RegisterActivity activity) {
@@ -46,5 +47,10 @@ public class RegistrationStep2State extends RegisterState {
     @Override
     protected void saveCurrentViewState(SuperView superView) {
         stateContext.takeDataFromView(((RegisterStep2View) superView).getBinding());
+    }
+
+    @Override
+    protected boolean isViewChanger() {
+        return true;
     }
 }

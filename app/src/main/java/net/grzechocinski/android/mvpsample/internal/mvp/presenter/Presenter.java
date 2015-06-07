@@ -1,5 +1,12 @@
 package net.grzechocinski.android.mvpsample.internal.mvp.presenter;
 
+import android.app.Activity;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.content.Context;
+import android.content.Intent;
+import android.support.v4.app.NotificationCompat;
+import net.grzechocinski.android.mvpsample.R;
 import net.grzechocinski.android.mvpsample.internal.bus.RequestUIUpdateEvent;
 import net.grzechocinski.android.mvpsample.internal.mvp.view.SuperActivity;
 import net.grzechocinski.android.mvpsample.register.view.RegisterActivity;
@@ -14,6 +21,10 @@ public abstract class Presenter<T extends Presenter.State> {
     private T currentState;
 
     private T lastViewChanger;
+
+    private boolean uiAttached;
+
+    private Context applicationContext;
 
     public Presenter(EventBus eventBus) {
         this.eventBus = eventBus;
@@ -30,12 +41,12 @@ public abstract class Presenter<T extends Presenter.State> {
 
         currentState = nextState;
 
-        if (!(currentState instanceof AsyncState)){
+        if (currentState.isViewChanger()) {
             lastViewChanger = currentState;
         }
         currentState.setPresenter(this);
         currentState.setStateContext(stateContext);
-        currentState.onStateApplied();
+        currentState.onStateAppliedTemplate();
         notifyUI();
     }
 
@@ -61,7 +72,44 @@ public abstract class Presenter<T extends Presenter.State> {
     }
 
     public void onUIAttached(SuperActivity activity) {
+        applicationContext = activity.getApplicationContext();
+        uiAttached = true;
         getCurrentState().onUIAttached(activity);
+    }
+
+    public boolean isUiAttached(){
+        return uiAttached;
+    }
+
+    public void onUIDetached(Context applicationContext) {
+        uiAttached = false;
+        getCurrentState().onUIDetached(applicationContext);
+    }
+
+    public void createNotification(String title, String text, Class<? extends Activity> activityClass) {
+        PendingIntent pendingIntent = preparePendingIntent(applicationContext, activityClass);
+        NotificationCompat.Builder mBuilder =
+                new NotificationCompat.Builder(applicationContext)
+                        .setSmallIcon(R.drawable.ic_launcher)
+                        .setContentTitle(title)
+                        .setContentText(text)
+                        .setAutoCancel(true)
+                        .setContentIntent(pendingIntent);
+
+        NotificationManager mNotificationManager =
+                (NotificationManager) applicationContext.getSystemService(Context.NOTIFICATION_SERVICE);
+        mNotificationManager.notify(12212, mBuilder.build());
+    }
+
+    private PendingIntent preparePendingIntent(Context applicationContext, Class<? extends Activity> activityClass) {
+        Intent resultIntent = new Intent(applicationContext, activityClass);
+
+        return PendingIntent.getActivity(
+                applicationContext,
+                0,
+                resultIntent,
+                PendingIntent.FLAG_UPDATE_CURRENT
+        );
     }
 
     public static class State<ACTIVITY extends SuperActivity, CONTEXT, PRESENTER extends Presenter> {
@@ -70,20 +118,28 @@ public abstract class Presenter<T extends Presenter.State> {
 
         protected PRESENTER presenter;
 
-        final void onStateApplied() {
+        final void onStateAppliedTemplate() {
             Timber.i("Entered state %s", this.getClass().getSimpleName());
-            if(this instanceof AsyncState){
-                ((AsyncState) this).performAsyncOperation();
-            }
+            onStateApplied();
+        }
+
+        protected void onStateApplied() {
         }
 
         public void onUIAttached(ACTIVITY activity) {
+        }
+
+        public void onUIDetached(Context applicationContext) {
         }
 
         protected void saveCurrentViewState(SuperView superView) {
         }
 
         public boolean onBackPressed() {
+            return false;
+        }
+
+        protected boolean isViewChanger(){
             return false;
         }
 
@@ -94,9 +150,5 @@ public abstract class Presenter<T extends Presenter.State> {
         final void setPresenter(PRESENTER presenter) {
             this.presenter = presenter;
         }
-    }
-
-    public interface AsyncState{
-        void performAsyncOperation();
     }
 }

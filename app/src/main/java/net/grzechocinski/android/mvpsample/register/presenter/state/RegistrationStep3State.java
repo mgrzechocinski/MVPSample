@@ -25,4 +25,9 @@ public class RegistrationStep3State extends RegisterState {
         presenter.setState(new RegistrationStep1State(stateContext));
         return true;
     }
+
+    @Override
+    protected boolean isViewChanger() {
+        return true;
+    }
 }

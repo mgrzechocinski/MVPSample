@@ -1,6 +1,5 @@
 package net.grzechocinski.android.mvpsample.register.presenter.state;
 
-import android.text.Editable;
 import android.text.TextUtils;
 import net.grzechocinski.android.mvpsample.databinding.FragmentRegisterStep1Binding;
 import net.grzechocinski.android.mvpsample.internal.mvp.presenter.Presenter;
@@ -11,7 +10,7 @@ import net.grzechocinski.android.mvpsample.register.view.RegisterActivity;
 import net.grzechocinski.android.mvpsample.register.view.RegisterStep1View;
 import rx.android.widget.WidgetObservable;
 
-public class RegistrationStep1State extends RegisterState implements Presenter.AsyncState {
+public class RegistrationStep1State extends RegisterState {
 
     public RegistrationStep1State(RegistrationData registrationData) {
         super.stateContext = registrationData;
@@ -40,7 +39,7 @@ public class RegistrationStep1State extends RegisterState implements Presenter.A
     }
 
     @Override
-    public void performAsyncOperation() {
-
+    protected boolean isViewChanger() {
+        return true;
     }
 }

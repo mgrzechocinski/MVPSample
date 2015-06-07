@@ -1,5 +1,6 @@
 package net.grzechocinski.android.mvpsample.internal.dagger;
 
+import java.util.concurrent.ExecutorService;
 import net.grzechocinski.android.mvpsample.internal.mvp.presenter.PresentersRepository;
 import net.grzechocinski.android.mvpsample.internal.util.RxUtils;
 import net.grzechocinski.android.mvpsample.register.view.RegisterActivity;
