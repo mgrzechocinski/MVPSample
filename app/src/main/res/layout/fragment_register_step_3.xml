@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+    <data>
+        <variable name="registrationData" type="net.grzechocinski.android.mvpsample.register.model.RegistrationData"/>
+    </data>
+    <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:padding="20dp">
+
+        <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
+                  android:text="@{registrationData.username}"
+                  android:id="@+id/tv_register_password"/>
+
+        <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
+                  android:text="@{registrationData.passwordLength}"
+                  android:id="@+id/tv_register_passwordLength"/>
+
+        <Button
+                android:id="@+id/sample_btn_register"
+                android:layout_width="match_parent"
+                android:layout_marginTop="20dp"
+                android:layout_height="wrap_content"
+                android:text="Register"/>
+
+    </LinearLayout>
+</layout>

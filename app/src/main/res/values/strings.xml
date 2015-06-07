@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">AMVPSample</string>
+
+    <string name="wrong_username">Wrong username format</string>
+    <string name="non_matching_passwords">Passwords doesn\'t match</string>
+
+</resources>
