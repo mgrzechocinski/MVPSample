@@ -24,6 +24,10 @@ public abstract class Presenter<T extends Presenter.State> {
 
     private boolean uiAttached;
 
+    @Deprecated
+    /**
+     * @deprecated Presenter should be moved to background service instead of holding reference to application context
+     */
     private Context applicationContext;
 
     public Presenter(EventBus eventBus) {
