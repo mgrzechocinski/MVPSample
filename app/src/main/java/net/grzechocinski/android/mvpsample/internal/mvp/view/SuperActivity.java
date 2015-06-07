@@ -55,7 +55,7 @@ public abstract class SuperActivity<PRESENTER extends Presenter> extends AppComp
 
     protected abstract void initializePresenter(PresentersRepository presentersRepository);
 
-    protected ApplicationComponent getApplicationComponent() {
+    public ApplicationComponent getApplicationComponent() {
         return ((MVPSampleApp) getApplication()).component();
     }
 

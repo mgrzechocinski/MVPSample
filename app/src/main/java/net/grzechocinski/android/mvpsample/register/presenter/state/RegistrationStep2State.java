@@ -1,20 +1,17 @@
 package net.grzechocinski.android.mvpsample.register.presenter.state;
 
 import static rx.Observable.combineLatest;
-import static rx.android.view.ViewActions.setEnabled;
 
-import android.text.TextUtils;
 import android.widget.Toast;
 import net.grzechocinski.android.mvpsample.databinding.FragmentRegisterStep2Binding;
+import net.grzechocinski.android.mvpsample.internal.util.RxUtils;
 import net.grzechocinski.android.mvpsample.register.presenter.state.generic.RegisterState;
 import net.grzechocinski.android.mvpsample.register.view.RegisterActivity;
 import net.grzechocinski.android.mvpsample.register.view.RegisterStep2View;
 import net.grzechocinski.android.mvpsample.internal.mvp.view.SuperView;
 import rx.Observable;
-import rx.android.view.ViewActions;
 import rx.android.widget.OnTextChangeEvent;
 import rx.android.widget.WidgetObservable;
-import rx.functions.Action1;
 
 public class RegistrationStep2State extends RegisterState {
 
@@ -23,10 +20,11 @@ public class RegistrationStep2State extends RegisterState {
         FragmentRegisterStep2Binding binding = activity.showStep2();
         binding.setRegistrationData(stateContext);
 
+        RxUtils rxUtils = activity.getApplicationComponent().getRxUtils();
         Observable<OnTextChangeEvent> passwordCharEntered = WidgetObservable.text(binding.etRegisterPassword, true);
         Observable<OnTextChangeEvent> passwordConfCharEntered = WidgetObservable.text(binding.etRegisterPasswordConfirmation, true);
         passwordCharEntered
-                .flatMap(inputEvent -> combineLatest(passwordCharEntered, passwordConfCharEntered, this::allNotEmpty))
+                .flatMap(inputEvent -> combineLatest(passwordCharEntered, passwordConfCharEntered, rxUtils::allNotEmpty))
                 .subscribe(binding.sampleBtnNext::setEnabled);
 
         binding.sampleBtnNext.setOnClickListener(v -> validate(activity, binding));
@@ -43,15 +41,6 @@ public class RegistrationStep2State extends RegisterState {
             return;
         }
         activity.getPresenter().setState(new RegistrationStep3State());
-    }
-
-    private boolean allNotEmpty(OnTextChangeEvent... event) {
-        for (OnTextChangeEvent onTextChangeEvent : event) {
-            if(TextUtils.isEmpty(onTextChangeEvent.text())){
-                return false;
-            }
-        }
-        return true;
     }
 
     @Override
